@@ -22,7 +22,7 @@ public class CleActivity extends AppCompatActivity {
         recherche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CleActivity.this, CleActivity.class);
+                Intent intent = new Intent(CleActivity.this, ResultatCle.class);
                 startActivity(intent);
 
             }
