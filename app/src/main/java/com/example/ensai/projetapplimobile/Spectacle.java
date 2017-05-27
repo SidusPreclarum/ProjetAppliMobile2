@@ -15,21 +15,21 @@ public class Spectacle {
     private String  uid ;
     private String  title;
     private String  pricing_info;
-    private  String  image;
-    private  Date date_start;
+    private String  image;
+    private Date date_start;
     private String  updated_at;
-    private  String  space_time_info;
-    private  String  department;
+    private String  space_time_info;
+    private String  department;
     private String  link;
-    private  String  free_text;
-    private  String  address;
-    private  String  placename;
-    private  String  timetable;
-    private  String  image_thumb;
-    private  String  region;
-    private  Date date_end;
-    private  String  tag;
-    private   String  description;
+    private String  free_text;
+    private String  address;
+    private String  placename;
+    private String  timetable;
+    private String  image_thumb;
+    private String  region;
+    private Date date_end;
+    private String  tag;
+    private String  description;
 
     public Spectacle(){
 
