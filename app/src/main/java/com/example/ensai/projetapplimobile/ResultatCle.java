@@ -3,6 +3,7 @@ package com.example.ensai.projetapplimobile;
 import android.app.DownloadManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
@@ -12,8 +13,11 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 /**
@@ -31,6 +35,7 @@ public class ResultatCle extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listRes);
 
         String myurl = "https://opendata.paris.fr/api/records/1.0/search/?dataset=evenements-a-paris&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at";
+        String champ = getIntent().getExtras().getString("champ");
 
         OkHttpClient okhttpClient = new OkHttpClient();
         Request myGetRequest = new Request.Builder().url(myurl).build();

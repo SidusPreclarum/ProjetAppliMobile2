@@ -23,6 +23,7 @@ public class CleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CleActivity.this, ResultatCle.class);
+                intent.putExtra("champ", R.id.motsCle);
                 startActivity(intent);
 
             }
