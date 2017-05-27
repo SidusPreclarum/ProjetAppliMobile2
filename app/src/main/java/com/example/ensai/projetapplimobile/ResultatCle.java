@@ -2,9 +2,12 @@ package com.example.ensai.projetapplimobile;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,12 +33,28 @@ import java.util.ArrayList;
 public class ResultatCle extends AppCompatActivity {
 
     ListView lv;
+
+    public ArrayList<Spectacle> getListeSpectacles() {
+        return listeSpectacles;
+    }
+
+    final ArrayList<Spectacle> listeSpectacles=new ArrayList<Spectacle>();
+
+    public ListView getLv() {
+        return lv;
+    }
+
+    public void setLv(ListView lv) {
+        this.lv = lv;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.res_cle);
         lv = (ListView) findViewById(R.id.listRes);
+
 
         //String myurl = "https://opendata.paris.fr/api/records/1.0/search/?dataset=evenements-a-paris&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at";
         String myurl = "https://opendata.paris.fr/api/records/1.0/search/?dataset=evenements-a-paris&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at";
@@ -52,7 +71,7 @@ public class ResultatCle extends AppCompatActivity {
                                                        }
 
                                                        public void onResponse(Response response) throws IOException {
-                                                           final ArrayList<Spectacle> listeSpectacles=new ArrayList<Spectacle>();
+
 
                                                            try {
                                                                String text = response.body().string();
@@ -69,6 +88,7 @@ public class ResultatCle extends AppCompatActivity {
                                                                        if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
                                                                            Spectacle spectacle = new Spectacle();
                                                                            spectacle.setTitle(jsonobject.getString("title"));
+                                                                           spectacle.setId(jsonobject.getString("uid"));
                                                                            listeSpectacles.add(spectacle);
                                                                        }
                                                                    }
@@ -83,13 +103,25 @@ public class ResultatCle extends AppCompatActivity {
                                                            runOnUiThread(new Runnable() {
                                                                @Override
                                                                public void run() {
-                                                                   ArrayList<String> listeNomDesSpectacles= new ArrayList<String>();
+                                                                   final ArrayList<String> listeNomDesSpectacles= new ArrayList<String>();
                                                                    for(Spectacle b: listeSpectacles){
                                                                        listeNomDesSpectacles.add(b.getTitle());
                                                                    }
                                                                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(ResultatCle.this,
                                                                            android.R.layout.simple_list_item_1, android.R.id.text1, listeNomDesSpectacles);
                                                                    lv.setAdapter(adapter);
+                                                                   lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                                       @Override
+                                                                       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                           Intent i = new Intent(getApplicationContext(), ViewSpectacle.class);
+                                                                           i.putExtra("pos", position);
+                                                                           i.putExtra("activite", "ResultatCle");
+                                                                           startActivity(i);
+                                                                       }
+
+
+                                                                   });
+
                                                                }
                                                            }); // fin runOnUiThread
 

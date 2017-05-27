@@ -33,8 +33,8 @@ public class CleActivity extends AppCompatActivity {
                 Intent intent = new Intent(CleActivity.this, ResultatCle.class);
                 intent.putExtra("champ", edit.getText().toString());
                 startActivity(intent);
-                Context context = getApplicationContext();
-                Toast.makeText(context, intent.getExtras().getString("champ"), Toast.LENGTH_SHORT).show();
+               // Context context = getApplicationContext();
+                //Toast.makeText(context, intent.getExtras().getString("champ"), Toast.LENGTH_SHORT).show();
             }
         });
     }

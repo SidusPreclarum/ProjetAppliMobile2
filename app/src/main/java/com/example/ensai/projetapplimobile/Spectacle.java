@@ -31,11 +31,21 @@ public class Spectacle {
     private  String  tag;
     private   String  description;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
     public Spectacle(){
 
     }
 
-    public Spectacle(float[] latlon, String lang, String city, String uid, String title, String pricing_info, String image, Date date_start, String updated_at, String space_time_info, String department, String link, String free_text, String address, String placename, String timetable, String image_thumb, String region, Date date_end, String tag, String description) {
+    public Spectacle(float[] latlon, String lang, String city, String uid, String title, String pricing_info, String image, Date date_start, String updated_at, String space_time_info, String department, String link, String free_text, String address, String placename, String timetable, String image_thumb, String region, Date date_end, String tag, String description, String id) {
         this.latlon = latlon;
         this.lang = lang;
         this.city = city;
@@ -57,6 +67,7 @@ public class Spectacle {
         this.date_end = date_end;
         this.tag = tag;
         this.description = description;
+        this.id = id;
     }
 
     public float[] getLatlon() {
@@ -224,8 +235,13 @@ public class Spectacle {
         return description;
     }
 
+
     public void setDescription(String description) {
         this.description = description;
+    }
+    @Override
+    public String toString() {
+        return title;
     }
 }
 
