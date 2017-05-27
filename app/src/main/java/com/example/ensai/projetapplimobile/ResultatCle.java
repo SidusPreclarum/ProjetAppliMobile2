@@ -1,10 +1,13 @@
 package com.example.ensai.projetapplimobile;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.squareup.okhttp.Callback;
@@ -34,11 +37,14 @@ public class ResultatCle extends AppCompatActivity {
         setContentView(R.layout.res_cle);
         lv = (ListView) findViewById(R.id.listRes);
 
+        //String myurl = "https://opendata.paris.fr/api/records/1.0/search/?dataset=evenements-a-paris&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at";
         String myurl = "https://opendata.paris.fr/api/records/1.0/search/?dataset=evenements-a-paris&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at";
-        String champ = getIntent().getExtras().getString("champ");
+        final String champ = getIntent().getExtras().getString("champ").toLowerCase();
+
 
         OkHttpClient okhttpClient = new OkHttpClient();
         Request myGetRequest = new Request.Builder().url(myurl).build();
+
 
         okhttpClient.newCall(myGetRequest).enqueue(new Callback() {
 
@@ -46,19 +52,26 @@ public class ResultatCle extends AppCompatActivity {
                                                        }
 
                                                        public void onResponse(Response response) throws IOException {
-                                                           final ArrayList<Biere> listeBieres=new ArrayList<Biere>();
+                                                           final ArrayList<Spectacle> listeSpectacles=new ArrayList<Spectacle>();
 
                                                            try {
                                                                String text = response.body().string();
-                                                               JSONArray json = new JSONArray(text);
+                                                               Log.d("text :", text);
+
+
+                                                               JSONObject jsonTot = new JSONObject(text);
+                                                               JSONArray json = jsonTot.getJSONArray("records");
 
                                                                for (int i = 0; i < json.length(); i++) {
-                                                                   JSONObject jsonobject = json.getJSONObject(i);
-                                                                   Biere biere = new Biere();
 
-
-                                                                   listeBieres.add(biere);
-
+                                                                   JSONObject jsonobject = json.getJSONObject(i).getJSONObject("fields");
+                                                                   if (!jsonobject.getString("tags").isEmpty()){
+                                                                       if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
+                                                                           Spectacle spectacle = new Spectacle();
+                                                                           spectacle.setTitle(jsonobject.getString("title"));
+                                                                           listeSpectacles.add(spectacle);
+                                                                       }
+                                                                   }
                                                                }
 
 
@@ -70,18 +83,18 @@ public class ResultatCle extends AppCompatActivity {
                                                            runOnUiThread(new Runnable() {
                                                                @Override
                                                                public void run() {
-                                                                   ArrayList<String> listeNomDesBieres= new ArrayList<String>();
-                                                                   for(Biere b: listeBieres){
-                                                                       listeNomDesBieres.add(b.getNom());
+                                                                   ArrayList<String> listeNomDesSpectacles= new ArrayList<String>();
+                                                                   for(Spectacle b: listeSpectacles){
+                                                                       listeNomDesSpectacles.add(b.getTitle());
                                                                    }
-                                                                   final ArrayAdapter<String> adapter = new ArrayAdapter<String>(ToutesLesBieres.this,
-                                                                           android.R.layout.simple_list_item_1, listeNomDesBieres);
+                                                                   final ArrayAdapter<String> adapter = new ArrayAdapter<String>(ResultatCle.this,
+                                                                           android.R.layout.simple_list_item_1, android.R.id.text1, listeNomDesSpectacles);
                                                                    lv.setAdapter(adapter);
                                                                }
                                                            }); // fin runOnUiThread
 
 
-                                                           listeDesBieres=listeBieres;
+
                                                        }
 
                                                    }

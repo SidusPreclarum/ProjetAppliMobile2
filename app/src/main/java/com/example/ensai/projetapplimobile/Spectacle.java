@@ -31,6 +31,10 @@ public class Spectacle {
     private  String  tag;
     private   String  description;
 
+    public Spectacle(){
+
+    }
+
     public Spectacle(float[] latlon, String lang, String city, String uid, String title, String pricing_info, String image, Date date_start, String updated_at, String space_time_info, String department, String link, String free_text, String address, String placename, String timetable, String image_thumb, String region, Date date_end, String tag, String description) {
         this.latlon = latlon;
         this.lang = lang;
