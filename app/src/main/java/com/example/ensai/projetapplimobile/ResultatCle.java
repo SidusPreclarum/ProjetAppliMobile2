@@ -30,7 +30,7 @@ public class ResultatCle extends AppCompatActivity {
         setContentView(R.layout.res_cle);
         lv = (ListView) findViewById(R.id.listRes);
 
-        String myurl = "http://alban.guichard.free.fr/BeerChallenge/json.php?query=?&date=?";
+        String myurl = "https://opendata.paris.fr/api/records/1.0/search/?dataset=evenements-a-paris&facet=tags&facet=placename&facet=department&facet=region&facet=city&facet=date_start&facet=date_end&facet=pricing_info&facet=updated_at";
 
         OkHttpClient okhttpClient = new OkHttpClient();
         Request myGetRequest = new Request.Builder().url(myurl).build();
