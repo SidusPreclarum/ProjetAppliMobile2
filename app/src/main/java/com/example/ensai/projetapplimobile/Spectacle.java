@@ -1,22 +1,22 @@
 package com.example.ensai.projetapplimobile;
 
-import java.util.Calendar;
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by ensai on 27/05/17.
  */
 
-public class Spectacle {
+public class Spectacle implements Parcelable{
 
-    float[] latlon;
+    String latlon;
     private String  lang;
     private String  city;
     private String  uid ;
     private String  title;
     private String  pricing_info;
     private String  image;
-    private Date date_start;
+    private String date_start;
     private String  updated_at;
     private String  space_time_info;
     private String  department;
@@ -27,25 +27,17 @@ public class Spectacle {
     private String  timetable;
     private String  image_thumb;
     private String  region;
-    private Date date_end;
-    private String  tag;
+    private String date_end;
+    private String  tags;
     private String  description;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    private String id;
 
     public Spectacle(){
 
     }
 
-    public Spectacle(float[] latlon, String lang, String city, String uid, String title, String pricing_info, String image, Date date_start, String updated_at, String space_time_info, String department, String link, String free_text, String address, String placename, String timetable, String image_thumb, String region, Date date_end, String tag, String description, String id) {
+    public Spectacle(String latlon, String lang, String city, String uid, String title, String pricing_info, String image, String date_start, String updated_at, String space_time_info, String department, String link, String free_text, String address, String placename, String timetable, String image_thumb, String region, String date_end, String tags, String description) {
         this.latlon = latlon;
         this.lang = lang;
         this.city = city;
@@ -65,17 +57,17 @@ public class Spectacle {
         this.image_thumb = image_thumb;
         this.region = region;
         this.date_end = date_end;
-        this.tag = tag;
+        this.tags = tags;
         this.description = description;
-        this.id = id;
+
     }
 
-    public float[] getLatlon() {
+    public String getLatlon() {
 
         return latlon;
     }
 
-    public void setLatlon(float[] latlon) {
+    public void setLatlon(String latlon) {
         this.latlon = latlon;
     }
 
@@ -127,11 +119,11 @@ public class Spectacle {
         this.image = image;
     }
 
-    public Date getDate_start() {
+    public String getDate_start() {
         return date_start;
     }
 
-    public void setDate_start(Date date_start) {
+    public void setDate_start(String date_start) {
         this.date_start = date_start;
     }
 
@@ -215,20 +207,20 @@ public class Spectacle {
         this.region = region;
     }
 
-    public Date getDate_end() {
+    public String getDate_end() {
         return date_end;
     }
 
-    public void setDate_end(Date date_end) {
+    public void setDate_end(String date_end) {
         this.date_end = date_end;
     }
 
     public String getTag() {
-        return tag;
+        return tags;
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+        this.tags = tag;
     }
 
     public String getDescription() {
@@ -242,6 +234,74 @@ public class Spectacle {
     @Override
     public String toString() {
         return title;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(latlon);
+        dest.writeString(lang);
+        dest.writeString(city);
+        dest.writeString(uid );
+        dest.writeString(title);
+        dest.writeString(pricing_info);
+        dest.writeString(image);
+        //dest.writeLong(date_start.getTime());
+        dest.writeString(date_start);
+        dest.writeString(updated_at);
+        dest.writeString(space_time_info);
+        dest.writeString(department);
+        dest.writeString(link);
+        dest.writeString(free_text);
+        dest.writeString(address);
+        dest.writeString(placename);
+        dest.writeString(timetable);
+        dest.writeString(image_thumb);
+        dest.writeString(region);
+        dest.writeString(date_end);
+        //dest.writeLong(date_end.getTime());
+        dest.writeString(tags);
+        dest.writeString(description);
+    }
+
+    public static final Parcelable.Creator<Spectacle> CREATOR = new Parcelable.Creator<Spectacle>() {
+        public Spectacle createFromParcel(Parcel in) {
+            return new Spectacle(in);
+        }
+
+        public Spectacle[] newArray(int size) {
+            return new Spectacle[size];
+        }
+
+    };
+    private Spectacle(Parcel in) {
+         latlon = in.readString();
+          lang = in.readString();
+          city = in.readString();
+          uid  = in.readString();
+          title = in.readString();
+          pricing_info = in.readString();
+          image = in.readString();
+          date_start = in.readString();
+          //date_start = new Date(in.readLong());
+          updated_at = in.readString();
+          space_time_info = in.readString();
+          department = in.readString();
+          link = in.readString();
+          free_text = in.readString();
+          address = in.readString();
+          placename = in.readString();
+          timetable = in.readString();
+          image_thumb = in.readString();
+          region = in.readString();
+          date_end  = in.readString();
+          //date_end = new Date(in.readLong());
+          tags = in.readString();
+          description = in.readString();
     }
 }
 

@@ -13,17 +13,23 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+
 
 
 /**
@@ -38,7 +44,7 @@ public class ResultatCle extends AppCompatActivity {
         return listeSpectacles;
     }
 
-    final ArrayList<Spectacle> listeSpectacles=new ArrayList<Spectacle>();
+    final ArrayList<Spectacle> listeSpectacles = new ArrayList<Spectacle>();
 
     public ListView getLv() {
         return lv;
@@ -84,11 +90,32 @@ public class ResultatCle extends AppCompatActivity {
                                                                for (int i = 0; i < json.length(); i++) {
 
                                                                    JSONObject jsonobject = json.getJSONObject(i).getJSONObject("fields");
-                                                                   if (!jsonobject.getString("tags").isEmpty()){
+                                                                   if (!jsonobject.getString("tags").isEmpty()) {
                                                                        if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
                                                                            Spectacle spectacle = new Spectacle();
-                                                                           spectacle.setTitle(jsonobject.getString("title"));
-                                                                           spectacle.setId(jsonobject.getString("uid"));
+//                                                                           spectacle.setTitle(jsonobject.getString("title"));
+//                                                                           spectacle.setId(jsonobject.getString("uid"));
+
+                                                                           for (Field f : Spectacle.class.getDeclaredFields()) {
+                                                                               Log.d("spectacle", jsonobject.getString("title"));
+                                                                               Log.d("field :", f.getName());
+                                                                               Log.d("présent", String.valueOf(jsonobject.has(f.getName())));
+                                                                               // Log.d("address", jsonobject.getString("address"));
+
+                                                                               if (jsonobject.has(f.getName())  /*&&  !jsonobject.getString(f.getName()).isEmpty()*/)
+                                                                                   try {
+                                                                                       Log.d("valeur", jsonobject.getString(f.getName()));
+                                                                                   for (Method m : spectacle.getClass().getMethods()) {
+                                                                                       if (m.getName().toLowerCase().equals("set"+f.getName())) {
+                                                                                           m.invoke(spectacle,jsonobject.getString(f.getName()));
+                                                                                       }
+                                                                                   }
+                                                                               } catch (IllegalAccessException e) {
+                                                                                   e.printStackTrace();
+                                                                               } catch (InvocationTargetException e) {
+                                                                                   e.printStackTrace();
+                                                                               }
+                                                                           }
                                                                            listeSpectacles.add(spectacle);
                                                                        }
                                                                    }
@@ -103,8 +130,8 @@ public class ResultatCle extends AppCompatActivity {
                                                            runOnUiThread(new Runnable() {
                                                                @Override
                                                                public void run() {
-                                                                   final ArrayList<String> listeNomDesSpectacles= new ArrayList<String>();
-                                                                   for(Spectacle b: listeSpectacles){
+                                                                   final ArrayList<String> listeNomDesSpectacles = new ArrayList<String>();
+                                                                   for (Spectacle b : listeSpectacles) {
                                                                        listeNomDesSpectacles.add(b.getTitle());
                                                                    }
                                                                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(ResultatCle.this,
@@ -114,8 +141,7 @@ public class ResultatCle extends AppCompatActivity {
                                                                        @Override
                                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                            Intent i = new Intent(getApplicationContext(), ViewSpectacle.class);
-                                                                           i.putExtra("pos", position);
-                                                                           i.putExtra("activite", "ResultatCle");
+                                                                           i.putExtra("spectacle", listeSpectacles.get(position));
                                                                            startActivity(i);
                                                                        }
 
@@ -124,7 +150,6 @@ public class ResultatCle extends AppCompatActivity {
 
                                                                }
                                                            }); // fin runOnUiThread
-
 
 
                                                        }
