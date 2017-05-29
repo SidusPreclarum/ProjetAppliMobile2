@@ -16,7 +16,7 @@ import static java.security.AccessController.getContext;
  */
 
 public class CleActivity extends AppCompatActivity {
-
+    Button cancel;
     Button recherche;
     EditText edit;
     @Override
@@ -26,7 +26,6 @@ public class CleActivity extends AppCompatActivity {
 
         recherche = (Button)findViewById(R.id.buttonCle);
         edit   = (EditText)findViewById(R.id.motsCle);
-
         recherche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +34,15 @@ public class CleActivity extends AppCompatActivity {
                 startActivity(intent);
                // Context context = getApplicationContext();
                 //Toast.makeText(context, intent.getExtras().getString("champ"), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel = (Button)findViewById(R.id.buttonAnnulerRes);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
             }
         });
     }

@@ -7,11 +7,18 @@
         android:hint="Recherche"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/motsCle" />
+        android:id="@+id/motsCle"
+        android:maxLines="1"/>
 
     <Button
         android:text="Rechercher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonCle" />
+
+    <Button
+        android:text="@string/revenir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonAnnulerRes" />
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class ResultatCle extends AppCompatActivity {
     public void setLv(ListView lv) {
         this.lv = lv;
     }
+    Button cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,16 @@ public class ResultatCle extends AppCompatActivity {
 
                                                    }
         );
+        cancel = (Button)findViewById(R.id.buttonNleRecherche);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
     }
+
 
 }
 

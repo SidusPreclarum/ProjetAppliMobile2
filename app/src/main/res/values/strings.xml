@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">ProjetAppliMobile</string>
+    <string name="title">Titre : </string>
+    <string name="address">Adresse : </string>
+    <string name="timetable">Horaires</string>
+    <string name="tags">Tags :</string>
+    <string name="pricing_info">Tarifs :</string>
+    <string name="description">Description :</string>
+    <string name="free_text">Description :</string>
+    <string name="link">Lien :</string>
+    <string name="d_pricing_info">Pas d\'information sur les tarifs</string>
+    <string name="d_tags">Aucun tag</string>
+    <string name="d_description">Pas de description</string>
+    <string name="d_link">Pas de Lien</string>
+    <string name="d_timetable">Pas d\'horaires</string>
+    <string name="d_address">Pas d\\\'adresse indiquée</string>
+    <string name="revenir">Revenir en arrière</string>
+    <string name="AjouterSpectacle">Ajouter à mes spectacles</string>
+    <string name="RevenirRésultats">Revenir aux résultats</string>
+    <string name="lancerNleRecherche">Lancer une nouvelle recherche</string>
+
 </resources>
