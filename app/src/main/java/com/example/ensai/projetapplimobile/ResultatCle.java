@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -30,7 +29,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 
 
 /**
@@ -54,6 +52,7 @@ public class ResultatCle extends AppCompatActivity {
     public void setLv(ListView lv) {
         this.lv = lv;
     }
+
     Button cancel;
 
     @Override
@@ -75,7 +74,9 @@ public class ResultatCle extends AppCompatActivity {
 
         okhttpClient.newCall(myGetRequest).enqueue(new Callback() {
 
+
                                                        public void onFailure(Request request, IOException e) {
+                                                           Log.d("http", "lol fail");
                                                        }
 
                                                        public void onResponse(Response response) throws IOException {
@@ -83,43 +84,91 @@ public class ResultatCle extends AppCompatActivity {
 
                                                            try {
                                                                String text = response.body().string();
-                                                               Log.d("text :", text);
+                                                               //Log.d("text :", text);
 
 
                                                                JSONObject jsonTot = new JSONObject(text);
                                                                JSONArray json = jsonTot.getJSONArray("records");
-
+                                                               Log.d("longueur", "" + json.length());
                                                                for (int i = 0; i < json.length(); i++) {
 
                                                                    JSONObject jsonobject = json.getJSONObject(i).getJSONObject("fields");
-                                                                   if (!jsonobject.getString("tags").isEmpty()) {
-                                                                       if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
-                                                                           Spectacle spectacle = new Spectacle();
+
+                                                                   Log.d("spectacle", jsonobject.optString("title"));
+                                                                   Log.d("tags", jsonobject.optString("tags"));
+                                                                   try {
+                                                                       boolean added = false;
+                                                                       if (!(jsonobject.optString("tags").isEmpty()) && !added) {
+                                                                           Log.d("recherche dans tags", "yo");
+                                                                           if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
+
+                                                                               Spectacle spectacle = new Spectacle();
 //                                                                           spectacle.setTitle(jsonobject.getString("title"));
 //                                                                           spectacle.setId(jsonobject.getString("uid"));
 
-                                                                           for (Field f : Spectacle.class.getDeclaredFields()) {
-                                                                               Log.d("spectacle", jsonobject.getString("title"));
-                                                                               Log.d("field :", f.getName());
-                                                                               Log.d("présent", String.valueOf(jsonobject.has(f.getName())));
-                                                                               // Log.d("address", jsonobject.getString("address"));
+                                                                               for (Field f : Spectacle.class.getDeclaredFields()) {
+                                                                                   Log.d("field :", f.getName());
+                                                                                   Log.d("présent", String.valueOf(jsonobject.has(f.getName())));
+                                                                                   // Log.d("address", jsonobject.getString("address"));
 
-                                                                               if (jsonobject.has(f.getName())  /*&&  !jsonobject.getString(f.getName()).isEmpty()*/)
-                                                                                   try {
+                                                                                   if (jsonobject.has(f.getName())  /*&&  !jsonobject.getString(f.getName()).isEmpty()*/)
+                                                                                       // try {
                                                                                        Log.d("valeur", jsonobject.getString(f.getName()));
                                                                                    for (Method m : spectacle.getClass().getMethods()) {
-                                                                                       if (m.getName().toLowerCase().equals("set"+f.getName())) {
-                                                                                           m.invoke(spectacle,jsonobject.getString(f.getName()));
+                                                                                       if (m.getName().toLowerCase().equals("set" + f.getName())) {
+                                                                                           m.invoke(spectacle, jsonobject.getString(f.getName()));
                                                                                        }
                                                                                    }
-                                                                               } catch (IllegalAccessException e) {
-                                                                                   e.printStackTrace();
-                                                                               } catch (InvocationTargetException e) {
-                                                                                   e.printStackTrace();
+                                                                                   //} catch (IllegalAccessException e) {
+                                                                                   //  e.printStackTrace();
+                                                                                   // } catch (InvocationTargetException e) {
+                                                                                   //  e.printStackTrace();
+                                                                                   //}
                                                                                }
+                                                                               Log.d("found", "yes");
+                                                                               listeSpectacles.add(spectacle);
+                                                                               added=true;
+
                                                                            }
-                                                                           listeSpectacles.add(spectacle);
                                                                        }
+                                                                       if (/*!(jsonobject.getString("title").isEmpty()) && */!added) {
+                                                                           Log.d("recherche dans titre", "yo");
+
+                                                                           if (jsonobject.getString("title").toLowerCase().contains(champ)) {
+                                                                               Spectacle spectacle = new Spectacle();
+//                                                                           spectacle.setTitle(jsonobject.getString("title"));
+//                                                                           spectacle.setId(jsonobject.getString("uid"));
+
+                                                                               for (Field f : Spectacle.class.getDeclaredFields()) {
+                                                                                   Log.d("spectacle", jsonobject.getString("title"));
+                                                                                   Log.d("field :", f.getName());
+                                                                                   Log.d("présent", String.valueOf(jsonobject.has(f.getName())));
+                                                                                   // Log.d("address", jsonobject.getString("address"));
+
+                                                                                   if (jsonobject.has(f.getName())  /*&&  !jsonobject.getString(f.getName()).isEmpty()*/)
+                                                                                       try {
+                                                                                           Log.d("valeur", jsonobject.getString(f.getName()));
+                                                                                           for (Method m : spectacle.getClass().getMethods()) {
+                                                                                               if (m.getName().toLowerCase().equals("set" + f.getName())) {
+                                                                                                   m.invoke(spectacle, jsonobject.getString(f.getName()));
+                                                                                               }
+                                                                                           }
+                                                                                       } catch (IllegalAccessException e) {
+                                                                                           e.printStackTrace();
+                                                                                       } catch (InvocationTargetException e) {
+                                                                                           e.printStackTrace();
+                                                                                       }
+                                                                               }
+                                                                               Log.d("founcd", "yes");
+                                                                               listeSpectacles.add(spectacle);
+                                                                               added=true;
+                                                                           }
+                                                                       }
+
+                                                                   } catch (IllegalAccessException e) {
+                                                                       e.printStackTrace();
+                                                                   } catch (InvocationTargetException e) {
+                                                                       e.printStackTrace();
                                                                    }
                                                                }
 
@@ -158,7 +207,7 @@ public class ResultatCle extends AppCompatActivity {
 
                                                    }
         );
-        cancel = (Button)findViewById(R.id.buttonNleRecherche);
+        cancel = (Button) findViewById(R.id.buttonNleRecherche);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
