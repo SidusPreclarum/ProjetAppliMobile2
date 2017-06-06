@@ -18,5 +18,12 @@
     <string name="AjouterSpectacle">Ajouter à mes spectacles</string>
     <string name="RevenirRésultats">Revenir aux résultats</string>
     <string name="lancerNleRecherche">Lancer une nouvelle recherche</string>
+    <string name="date_fin">Avant le</string>
+    <string name="date_debut">Après le</string>
+    <string name="rechTitre">Mot clef</string>
+    <string name="RechLieu">Lieu</string>
+    <string name="clearRech">Clear</string>
+    <string name="Rechercher">Rechercher</string>
+    <string name="recherche">RECHERCHE</string>
 
 </resources>

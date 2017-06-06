@@ -1,39 +1,50 @@
 package com.example.ensai.projetapplimobile;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by ensai on 27/05/17.
  */
 
-public class Spectacle implements Parcelable{
+public class Spectacle implements Parcelable {
 
-    String latlon;
-    private String  lang;
-    private String  city;
-    private String  uid ;
-    private String  title;
-    private String  pricing_info;
-    private String  image;
+    private String latlon;
+    private String lang;
+    private String city;
+    private String uid;
+    private String title;
+    private String pricing_info;
+    private String image;
     private String date_start;
-    private String  updated_at;
-    private String  space_time_info;
-    private String  department;
-    private String  link;
-    private String  free_text;
-    private String  address;
-    private String  placename;
-    private String  timetable;
-    private String  image_thumb;
-    private String  region;
+    private String updated_at;
+    private String space_time_info;
+    private String department;
+    private String link;
+    private String free_text;
+    private String address;
+    private String placename;
+    private String timetable;
+    private String image_thumb;
+    private String region;
     private String date_end;
-    private String  tags;
-    private String  description;
+    private String tags;
+    private String description;
 
 
-
-    public Spectacle(){
+    public Spectacle() {
 
     }
 
@@ -60,6 +71,75 @@ public class Spectacle implements Parcelable{
         this.tags = tags;
         this.description = description;
 
+    }
+
+
+    public String getByField(Field f){
+        String getFieldValue ="";
+        for (Method m : this.getClass().getMethods())
+            if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
+                    final Object r;
+                    try {
+                        r = m.invoke(this);
+                        if (r != null) {
+                            getFieldValue = r.toString();
+                        }
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+            }
+        return getFieldValue;
+    }
+
+
+    public void setByField(Field f, String fieldValue){
+        for (Method m : this.getClass().getMethods())
+            if (m.getName().startsWith("set") && m.getParameterTypes().length == 0) {
+                final Object r;
+                try {
+                    r = m.invoke(this, fieldValue);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+            }
+    }
+
+    public Spectacle(String[] params) {
+        int size = this.getClass().getDeclaredFields().length - 1;
+        Log.d("size",""+size);
+        for (int i = 0; i < size-2; i++) {
+            this.getClass().getDeclaredFields()[i].setAccessible(true);
+            try {
+                this.getClass().getDeclaredFields()[i].set(this, params[i]);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Spectacle(JSONObject jsonObject) {
+        for (Field f : this.getClass().getDeclaredFields()) {
+            Log.d("champ recherché", f.getName());
+            try {
+                if (f.getName().equals("latlon")) {
+                    //Log.d("Latlon est un ", jsonObject.get("latlon").getClass().toString());
+                    //JSONArray latlon = jsonObject.get("latlon");
+                    JSONArray j = (JSONArray) jsonObject.get(f.getName());
+                    f.set(this, j.getLong(0) + ";" + j.getLong(1));
+                } else {
+                    f.set(this, jsonObject.get(f.getName()));
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public String getLatlon() {
@@ -215,12 +295,12 @@ public class Spectacle implements Parcelable{
         this.date_end = date_end;
     }
 
-    public String getTag() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTag(String tag) {
-        this.tags = tag;
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public String getDescription() {
@@ -231,6 +311,7 @@ public class Spectacle implements Parcelable{
     public void setDescription(String description) {
         this.description = description;
     }
+
     @Override
     public String toString() {
         return title;
@@ -246,7 +327,7 @@ public class Spectacle implements Parcelable{
         dest.writeString(latlon);
         dest.writeString(lang);
         dest.writeString(city);
-        dest.writeString(uid );
+        dest.writeString(uid);
         dest.writeString(title);
         dest.writeString(pricing_info);
         dest.writeString(image);
@@ -278,31 +359,127 @@ public class Spectacle implements Parcelable{
         }
 
     };
+
     private Spectacle(Parcel in) {
-         latlon = in.readString();
-          lang = in.readString();
-          city = in.readString();
-          uid  = in.readString();
-          title = in.readString();
-          pricing_info = in.readString();
-          image = in.readString();
-          date_start = in.readString();
-          //date_start = new Date(in.readLong());
-          updated_at = in.readString();
-          space_time_info = in.readString();
-          department = in.readString();
-          link = in.readString();
-          free_text = in.readString();
-          address = in.readString();
-          placename = in.readString();
-          timetable = in.readString();
-          image_thumb = in.readString();
-          region = in.readString();
-          date_end  = in.readString();
-          //date_end = new Date(in.readLong());
-          tags = in.readString();
-          description = in.readString();
+        latlon = in.readString();
+        lang = in.readString();
+        city = in.readString();
+        uid = in.readString();
+        title = in.readString();
+        pricing_info = in.readString();
+        image = in.readString();
+        date_start = in.readString();
+        //date_start = new Date(in.readLong());
+        updated_at = in.readString();
+        space_time_info = in.readString();
+        department = in.readString();
+        link = in.readString();
+        free_text = in.readString();
+        address = in.readString();
+        placename = in.readString();
+        timetable = in.readString();
+        image_thumb = in.readString();
+        region = in.readString();
+        date_end = in.readString();
+        //date_end = new Date(in.readLong());
+        tags = in.readString();
+        description = in.readString();
     }
+
+    public String[] fieldsSpectacle() {
+        Log.d("fieldisation du spec", this.getTitle());
+
+        int size = this.getClass().getDeclaredFields().length - 3;
+        Log.d("size",""+size);
+        String[] fields = new String[size];
+        for (int i = 0; i < size; i++) {
+            this.getClass().getDeclaredFields()[i].setAccessible(true);
+            if (!this.getClass().getDeclaredFields()[i].getName().equals("CREATOR") &&
+                    !this.getClass().getDeclaredFields()[i].getName().equals("serialVersionUID") &&
+                    !this.getClass().getDeclaredFields()[i].getName().equals("$change")) {
+
+                Log.d("fieldisation du champ", this.getClass().getDeclaredFields()[i].getName());
+
+                try {
+                    Log.d("valeur",(String) this.getClass().getDeclaredFields()[i].get(this));
+                    fields[i] = (String) this.getClass().getDeclaredFields()[i].get(this);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        for (int i = 0; i < fields.length; i++) {
+           // Log.d("Fields",  fields[i]);
+            //Log.d("Fields", this.getClass().getDeclaredFields()[i].getName() + fields[i]);
+        }
+
+        return fields;
+    }
+    public String fieldsSpectaclePlat() {
+        Log.d("fieldisation du spec", this.getTitle());
+        int size = this.getClass().getDeclaredFields().length - 1;
+        String fields = "";
+        for (int i = 0; i < size; i++) {
+            fields= fields + ", %";
+            this.getClass().getDeclaredFields()[i].setAccessible(true);
+            if (!this.getClass().getDeclaredFields()[i].getName().equals("CREATOR") &&
+                    !this.getClass().getDeclaredFields()[i].getName().equals("serialVersionUID") &&
+                    !this.getClass().getDeclaredFields()[i].getName().equals("$change")) {
+
+                Log.d("fieldisation du champ", this.getClass().getDeclaredFields()[i].getName());
+                try {
+                    String field = (String) this.getClass().getDeclaredFields()[i].get(this);
+                    String preparedfield = "'" +field.replace("'","`")+  "'";
+                    fields = fields.substring(0,fields.length()-3) +","+ preparedfield;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        } {
+            Log.d("fsp Fields", fields);
+            Log.d("fsp Fields", "fin");
+        }
+
+        return fields.substring(1);
+    }
+    public ContentValues getContentValues() {
+        Log.d("ContVal du spec", this.getTitle());
+        ContentValues contentValues = new ContentValues();
+        int size = this.getClass().getDeclaredFields().length - 1;
+        String[] fields = new String[size];
+        for (int i = 0; i < size; i++) {
+            fields[i] = "%";
+            this.getClass().getDeclaredFields()[i].setAccessible(true);
+            if (!this.getClass().getDeclaredFields()[i].getName().equals("CREATOR") &&
+                    !this.getClass().getDeclaredFields()[i].getName().equals("serialVersionUID") &&
+                    !this.getClass().getDeclaredFields()[i].getName().equals("$change")) {
+                String preparedfield;
+                Log.d("fieldisation du champ", this.getClass().getDeclaredFields()[i].getName());
+                try {
+                    String field = (String) this.getClass().getDeclaredFields()[i].get(this);
+                    if (field!=null){
+                        field = field.replace("'","`");
+                        Log.d("field",field);
+                        preparedfield = "'" +field.replace("'","`")+  "'";
+                        Log.d("pfield",preparedfield);
+
+                    }
+                    else {field=new String();
+                        preparedfield="";}
+                    Log.d("prep", getClass().getDeclaredFields()[i].getName() + " "+preparedfield);
+                    contentValues.put(this.getClass().getDeclaredFields()[i].getName(),preparedfield);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //Log.d("Fields", this.getClass().getDeclaredFields()[i].getName() + fields[i]);
+        }
+
+        return contentValues;
+    }
+
+
 }
 
 

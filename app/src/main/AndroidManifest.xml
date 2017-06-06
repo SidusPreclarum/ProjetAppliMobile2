@@ -31,6 +31,13 @@
         <activity android:name=".ViewSpectacle">
         </activity>
 
+        <activity android:name=".RechercheActivity">
+        </activity>
+        <activity android:name=".ResultatRecherche">
+        </activity>
+        <activity android:name=".VoirSpectacle">
+        </activity>
+
     </application>
 
 </manifest>

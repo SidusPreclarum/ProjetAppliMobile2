@@ -158,7 +158,7 @@
         android:orientation="vertical">
 
 
-        <View android:id="@+id/strut"
+        <View android:id="@+id/strutv"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerHorizontal="true"/>
@@ -167,7 +167,7 @@
             android:id="@+id/buttonAnnulerVS"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/strut"
+            android:layout_alignRight="@id/strutv"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
@@ -179,7 +179,7 @@
             android:id="@+id/buttonAjouter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/strut"
+            android:layout_alignLeft="@id/strutv"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"

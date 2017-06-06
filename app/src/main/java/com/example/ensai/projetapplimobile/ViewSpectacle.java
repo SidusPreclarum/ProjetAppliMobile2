@@ -56,6 +56,7 @@ public class ViewSpectacle extends Activity {
         //Toast.makeText(context, spectacle.getDescription(), Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_spectacle);
+
         // if (getIntent().getExtras().getString("activite").equals("ResultatCle")){
         //spectacle = ((ResultatCle)chopeParent()).getListeSpectacles().get(/*Integer.parseInt(getIntent().getExtras().getString("position"))*/0);
         // }

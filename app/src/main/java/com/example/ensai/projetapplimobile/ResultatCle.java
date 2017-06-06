@@ -94,43 +94,43 @@ public class ResultatCle extends AppCompatActivity {
 
                                                                    JSONObject jsonobject = json.getJSONObject(i).getJSONObject("fields");
 
-                                                                   Log.d("spectacle", jsonobject.optString("title"));
-                                                                   Log.d("tags", jsonobject.optString("tags"));
-                                                                   try {
-                                                                       boolean added = false;
-                                                                       if (!(jsonobject.optString("tags").isEmpty()) && !added) {
-                                                                           Log.d("recherche dans tags", "yo");
-                                                                           if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
+                                                                       Log.d("spectacle", jsonobject.optString("title"));
+                                                                       Log.d("tags", jsonobject.optString("tags"));
+                                                                       try {
+                                                                           boolean added = false;
+                                                                           if (!(jsonobject.optString("tags").isEmpty()) && !added) {
+                                                                               Log.d("recherche dans tags", "yo");
+                                                                               if (jsonobject.getString("tags").toLowerCase().contains(champ)) {
 
-                                                                               Spectacle spectacle = new Spectacle();
-//                                                                           spectacle.setTitle(jsonobject.getString("title"));
-//                                                                           spectacle.setId(jsonobject.getString("uid"));
+                                                                                   Spectacle spectacle = new Spectacle();
+    //                                                                           spectacle.setTitle(jsonobject.getString("title"));
+    //                                                                           spectacle.setId(jsonobject.getString("uid"));
 
-                                                                               for (Field f : Spectacle.class.getDeclaredFields()) {
-                                                                                   Log.d("field :", f.getName());
-                                                                                   Log.d("présent", String.valueOf(jsonobject.has(f.getName())));
-                                                                                   // Log.d("address", jsonobject.getString("address"));
+                                                                                   for (Field f : Spectacle.class.getDeclaredFields()) {
+                                                                                       Log.d("field :", f.getName());
+                                                                                       Log.d("présent", String.valueOf(jsonobject.has(f.getName())));
+                                                                                       // Log.d("address", jsonobject.getString("address"));
 
-                                                                                   if (jsonobject.has(f.getName())  /*&&  !jsonobject.getString(f.getName()).isEmpty()*/)
-                                                                                       // try {
-                                                                                       Log.d("valeur", jsonobject.getString(f.getName()));
-                                                                                   for (Method m : spectacle.getClass().getMethods()) {
-                                                                                       if (m.getName().toLowerCase().equals("set" + f.getName())) {
-                                                                                           m.invoke(spectacle, jsonobject.getString(f.getName()));
+                                                                                       if (jsonobject.has(f.getName())  /*&&  !jsonobject.getString(f.getName()).isEmpty()*/)
+                                                                                           // try {
+                                                                                           Log.d("valeur", jsonobject.getString(f.getName()));
+                                                                                       for (Method m : spectacle.getClass().getMethods()) {
+                                                                                           if (m.getName().toLowerCase().equals("set" + f.getName())) {
+                                                                                               m.invoke(spectacle, jsonobject.getString(f.getName()));
+                                                                                           }
                                                                                        }
+                                                                                       //} catch (IllegalAccessException e) {
+                                                                                       //  e.printStackTrace();
+                                                                                       // } catch (InvocationTargetException e) {
+                                                                                       //  e.printStackTrace();
+                                                                                       //}
                                                                                    }
-                                                                                   //} catch (IllegalAccessException e) {
-                                                                                   //  e.printStackTrace();
-                                                                                   // } catch (InvocationTargetException e) {
-                                                                                   //  e.printStackTrace();
-                                                                                   //}
-                                                                               }
-                                                                               Log.d("found", "yes");
-                                                                               listeSpectacles.add(spectacle);
-                                                                               added=true;
+                                                                                   Log.d("found", "yes");
+                                                                                   listeSpectacles.add(spectacle);
+                                                                                   added=true;
 
+                                                                               }
                                                                            }
-                                                                       }
                                                                        if (/*!(jsonobject.getString("title").isEmpty()) && */!added) {
                                                                            Log.d("recherche dans titre", "yo");
 
