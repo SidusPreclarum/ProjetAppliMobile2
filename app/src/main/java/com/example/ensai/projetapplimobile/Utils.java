@@ -29,11 +29,11 @@ public class Utils {
         return ( string == null || string.trim().isEmpty());
     }
 
-    public String packageUid(ArrayList<String> strings){
+    public String packageList(ArrayList<String> strings){
         Log.d("longueur du string", ""+strings.size());
         String paquet = "";
         for (String string : strings){
-            Log.d("Strring",string);
+            Log.d("String",string);
             paquet = paquet + "|"+ string;
         }
         paquet = paquet.substring(1);
@@ -42,7 +42,7 @@ public class Utils {
 
     }
 
-    public ArrayList<String> unPackageUid(String stringUid){
+    public ArrayList<String> unPackageList(String stringUid){
         ArrayList<String> listeUids = new ArrayList<>();
         Log.d("paquet reçu",stringUid);
 ;        if (stringUid.contains("|"))

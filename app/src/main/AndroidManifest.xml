@@ -31,7 +31,7 @@
         <activity android:name=".ViewSpectacle">
         </activity>
 
-        <activity android:name=".RechercheActivity">
+        <activity android:name=".RechercheActivityImp">
         </activity>
         <activity android:name=".ResultatRecherche">
         </activity>
