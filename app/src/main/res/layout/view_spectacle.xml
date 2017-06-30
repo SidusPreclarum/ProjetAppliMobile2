@@ -89,7 +89,7 @@
                 android:text="@string/tags" />
 
             <TextView
-                android:id="@+id/field"
+                android:id="@+id/tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10px"
@@ -103,7 +103,7 @@
                 android:text="@string/pricing_info" />
 
             <TextView
-                android:id="@+id/fpricing_info"
+                android:id="@+id/pricing_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10px"
